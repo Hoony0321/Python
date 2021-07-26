@@ -90,7 +90,15 @@ s2 = s.shift(1);
 print(s);
 print(s2);
 
-##연습문제
+##연습문제 1번
+data = {'open' : [737,750,770], 'high' : [755, 780, 770] , 'low' : [700,710,750], 'close' : [750,770,730]};
+df = DataFrame(data, index=['2018-01-01', '2018-01-02', '2018-01-03']);
+print(df);
+
+##연습문제 2번
+df['volatility'] = df['high'] - df['low'];
+print(df);
+
 
 
 
