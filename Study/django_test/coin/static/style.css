@@ -1,0 +1,26 @@
+*{
+    box-sizing: border-box;
+    margin:0;
+    padding:0;
+}
+
+nav{
+    border-bottom: 1px solid black;
+    padding : 8px 16px;
+}
+
+main{
+    margin-top: 60px;
+}
+
+table{
+    margin: 0 auto;
+    border-collapse : collapse;
+    border-spacing : 0;
+}
+
+td, th{
+    border: 1px solid black;
+    padding: 8px;
+    text-align:center;
+}

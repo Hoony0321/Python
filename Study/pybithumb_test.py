@@ -67,9 +67,9 @@ import datetime
 
 ### 여러 가상화폐 정보 한번에 얻기 ###
 
-# all = pybit.get_current_price("ALL");
-# for k,v in all.items():
-#     print(k,v);
+all = pybit.get_current_price("ALL");
+for k,v in all.items():
+    print(k,v);
 
 
 ### 모든 가상화폐 현재가 출력 ###
@@ -144,26 +144,26 @@ import datetime
 
 ### 가상화폐 ticker 인자로 받아 상승장/하락장 판단 함수 만들기 ###
 
-def increase_marker(ticker):
-    data = pybit.get_ohlcv(ticker);
-    ma5 = data['close'].rolling(window=5).mean();
-    last_ma5 = ma5[-2];
-    current_price = pybit.get_current_price(ticker);
-    if current_price > last_ma5:
-        return True;
-    else :
-        return False;
+# def increase_marker(ticker):
+#     data = pybit.get_ohlcv(ticker);
+#     ma5 = data['close'].rolling(window=5).mean();
+#     last_ma5 = ma5[-2];
+#     current_price = pybit.get_current_price(ticker);
+#     if current_price > last_ma5:
+#         return True;
+#     else :
+#         return False;
 
-tickers = pybit.get_tickers();
+# tickers = pybit.get_tickers();
 
-for index, ticker in enumerate(tickers):
-    if(index == 20): break;
+# for index, ticker in enumerate(tickers):
+#     if(index == 20): break;
     
-    print(ticker, end="");
-    if(increase_marker(ticker)):
-        print(" : 상승장");
-    else :
-        print(" : 하락장");
+#     print(ticker, end="");
+#     if(increase_marker(ticker)):
+#         print(" : 상승장");
+#     else :
+#         print(" : 하락장");
 
 
 
