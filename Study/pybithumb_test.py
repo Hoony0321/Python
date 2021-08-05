@@ -17,10 +17,10 @@ import datetime
 
 ### 1초에 한번씩 현재가 얻기 -  최대 초당 20회 API 호출 가능(초과할 시 차단됨) ###
 
-# while(True):
-#     price = pybithumb.get_current_price("BTC");
-#     print(price);
-#     time.sleep(1);  
+while(True):
+    price = pybithumb.get_current_price("BTC");
+    print(price);
+    time.sleep(1);  
 
 
 ### 모든 가상화폐 현재가 출력하기 ###
