@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views import generic
 
 from .models import Currency
 
 import datetime
 import pybithumb as pybit
+import json
 # Create your views here.
 
 def getCurrency(ticker, info):
@@ -50,4 +51,12 @@ def index(request):
         'time_korea' : time_korea,
         };
     return render(request, 'check/index.html', context);
+
+
+def ajax_home(request):
+    return render(request, 'check/ajax.html');
+ 
+def ajax_reponse(request):
+    jsonObject = json.loads((request.body).decode('utf-8'));
+    return JsonResponse(jsonObject);
 

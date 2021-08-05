@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX_HOME</title>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="{% static 'csrf_module.js' %}"></script>
+</head>
+<body>
+    {% csrf_token %}
+    <h1>THIS WEB PAGE IS TESTING AJAX</h1>
+    <input type="text" class="title">
+    <input type="text" class="content">
+    <button class="btnAjax" value="TEST">Send</button>
+    <script type="module" src="{% static 'ajax_test.js' %}"></script>
+</body>
+</html>
