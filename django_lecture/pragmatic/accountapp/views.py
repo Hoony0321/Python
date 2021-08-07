@@ -1,6 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from accountapp.models import HelloWorld
+from django.urls import reverse
 # Create your views here.
 
 def hello_world(request): #인자로 request가 들어가는 이유는 client에게 요청을 받아 처리하기 때문!
@@ -13,7 +14,11 @@ def hello_world(request): #인자로 request가 들어가는 이유는 client에
         new_hello_world.text = temp;
         new_hello_world.save();
 
-        return render(request, 'accountapp/hello_world.html' , context ={ 'hello_world_output' : new_hello_world });
+        hello_world_list = HelloWorld.objects.all();
+        
+        #F5 새로고침 후 계속 POST 방식의 홈페이지가 생성되지 않도록 redirect로 GET 방식의 홈페이지로 돌아감.
+        return HttpResponseRedirect(reverse('accountapp:hello_world')); 
     
     else :
-        return render(request, 'accountapp/hello_world.html');
+        hello_world_list = HelloWorld.objects.all();
+        return render(request, 'accountapp/hello_world.html' , context ={ 'hello_world_list' : hello_world_list });
