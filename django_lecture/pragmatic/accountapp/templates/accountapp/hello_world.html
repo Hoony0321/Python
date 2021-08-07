@@ -3,14 +3,25 @@
 
 <!-- content block 내용 바꾸기 -->
 {% block content %}
-    <div style = "height : 20rem; background-color: #38df81; border-radius : 1rem; margin : 2rem;">
-        
+    <div style = "border-radius : 1rem; margin : 2rem; text-align: center;">
+        <h1 style = "font-family: 'lobster' , cursive;">
+            Hello World List!
+        </h1>
         <form action="/account/hello_world/" method="POST">
             {% csrf_token %}
-            <input type="submit" value="POST" class="btn btn-primary">
+            <div>
+                <input type="text" name="hello_world_input">
+            </div>
+            <div>
+                <input type="submit" value="POST" class="btn btn-primary">
+            </div>
+            
         </form>
-
-        <h1>{{ text }}</h1>
+        {% if hello_world_output %}
+        <h1>
+            {{ hello_world_output.text }}
+        </h1>
+        {% endif %}
         
     </div>
 {% endblock %}
