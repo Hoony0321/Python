@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from accountapp.models import HelloWorld
-from django.urls import reverse
+from django.urls import reverse , reverse_lazy
+from django.views import generic
+from django.contrib.auth import models, forms
 # Create your views here.
 
 def hello_world(request): #인자로 request가 들어가는 이유는 client에게 요청을 받아 처리하기 때문!
@@ -22,3 +24,11 @@ def hello_world(request): #인자로 request가 들어가는 이유는 client에
     else :
         hello_world_list = HelloWorld.objects.all();
         return render(request, 'accountapp/hello_world.html' , context ={ 'hello_world_list' : hello_world_list });
+
+
+class AccountCreateView(generic.CreateView):
+    model = models.User
+    form_class = forms.UserCreationForm
+    success_url = reverse_lazy('accountapp:hello_world')
+    template_name = 'accountapp/create.html'
+    
