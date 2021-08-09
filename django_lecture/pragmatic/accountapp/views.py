@@ -41,5 +41,10 @@ class AccountDetailView(generic.DetailView):
 class AccountUpdateView(generic.UpdateView):
     model = models.User
     form_class = AccountUpdateForm
-    success_url = reverse_lazy('accountapp:hello_world')
+    success_url = reverse_lazy('accountapp:login')
     template_name = 'accountapp/update.html'
+
+class AccountDeleteView(generic.DeleteView):
+    model = models.User
+    template_name = 'accountapp/delete.html'
+    success_url = reverse_lazy('accountapp:login') 
