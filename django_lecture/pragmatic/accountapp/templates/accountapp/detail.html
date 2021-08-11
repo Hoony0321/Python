@@ -4,16 +4,22 @@
 
     <div>
         <div style="text-align:center; max-width:500px; margin:4rem auto;">
-            <img src="{{ target_user.profile.image.url }}" alt="Profile Img"
-             style="width:10rem; height:10rem; border-radius:50%; border:2px solid black;
-             margin-bottom: 2rem;">
+
 
             {% if target_user.profile %}
+                <img src="{{ target_user.profile.image.url }}" alt="Profile Img"
+                style="width:10rem; height:10rem; border-radius:50%; border:2px solid black;
+                margin-bottom: 2rem;">
+
                 <h2 style="font-family:'NanumSquareB'">
+
                     {{ target_user.profile.nickname }}
+
+                    {% if target_user == user %}
                     <a href="{% url 'profileapp:update' pk=target_user.profile.pk %}">
                         edit
                     </a>
+                    {% endif %}
                 </h2>
                 
                 <h5 style="margin-bottom:3rem;">
@@ -21,11 +27,16 @@
                 </h5>
 
             {% else %}
-                <a href="{% url 'profileapp:create' %}">
+
+                {% if target_user == user %}        
+                <a href="{% url 'profileapp:create' %}">                
                     <h2 style="font-family:'NanumSquareB'">
                         Create Profile
                     </h2>
                 </a>
+                {% else %}
+                    <h2>Profile is not setting.</h2>
+                {% endif %}
             {% endif %}
 
 
