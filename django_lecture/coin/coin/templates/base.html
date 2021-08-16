@@ -1,20 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <!-- HEAD INCLUDE -->
 {% include 'head.html' %}
-<body style="font-family: 'NanumSquareR';">
-    <!-- HEADER INCLUDE -->
+
+
+<body>
+
+
+    <!-- HEADER BLOCK CONTENT -->
     {% include 'header.html' %}
-    
+
+
     <hr>
 
-    <!-- MAIN CONTENT EXTEND -->
+    <!-- MAIN CONTENT BLOCK EXTEND -->
     {% block content %}
     {% endblock %}
 
     <hr>
 
-    <!-- FOOTER INCLUDE -->
-    <!-- {% include 'footer.html' %} -->
+
+    <!-- FOOTER BLOCK INCLUDE -->
+    {% include 'footer.html' %}
+
 </body>
 </html>
