@@ -3,7 +3,6 @@ from django.views.generic import CreateView
 from django.contrib.auth import models, forms
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
-
 # Create your views here.
 
 def hello_world(request):
@@ -21,6 +20,9 @@ def check_login(request):
 class AccountCreateView(CreateView):
     model = models.User
     form_class = forms.UserCreationForm
-    success_url = reverse_lazy("accountapp:hello_world")
+    success_url = reverse_lazy("accountapp:home")
     template_name = 'accountapp/create.html'
+
+class AccountDetailView(DetailView):
+    
 
