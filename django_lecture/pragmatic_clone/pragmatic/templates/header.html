@@ -1,0 +1,26 @@
+<div class ="pragmatic_header" style="text-align: center;">
+    <div>
+        <h1 class="pragmatic_logo">Pragmatic</h1> 
+    </div>
+    <div class="nav" style="margin-top:1rem;">
+        <a href="#">nav1</a>
+        <a href="#">nav2</a>
+        <a href="#">nav3</a>
+        <a href="#">nav4</a>
+        
+        <!-- LOGIN/ LOGOUT -->
+        {% if request.user.is_authenticated %}
+            <!-- LOGIN 되어 있는 상태 -->
+        <a href="{% url 'accountapp:logout' %}">
+            logout
+        </a>
+        {% else %}
+            <!-- LOGOUT 되어 있는 상태 -->
+        <a href="{% url 'accountapp:login' %}">
+            login
+        </a>
+
+        {% endif%}
+        
+    </div>
+</div>

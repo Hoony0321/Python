@@ -1,0 +1,37 @@
+/* DEFAULT SETTINGS */
+
+a:link, a:visited{
+    text-decoration:none;
+    color: black;
+}
+
+
+/* USER SETTINGS */
+
+.pragmatic_logo{
+    font-family: 'Lobster' ,'cursive'
+}
+
+
+/* HEADER SETTINGS */
+.pragmatic_header{
+    margin: 2rem 0;
+}
+
+.pragmatic_header .nav {
+    justify-content: center;
+}
+
+.pragmatic_header .nav a{
+    margin-right: 1rem;
+}
+
+
+/* FOOTER SETTINGS */
+.pragmatic_footer{
+    margin: 2rem 0;
+}
+
+.pragmatic_footer .services span{
+    font-size:0.8rem;
+}
