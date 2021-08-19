@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block contents %}
+
+<div style="text-align: center;">
+    <h1>DETAIL HOMEPAGE</h1>
+
+    <!-- target_user가 본인일 경우 -->
+    {% if target_user == user %}
+    <a href="{% url 'accountapp:update' pk=user.pk %}">
+        update
+    </a>
+
+    <a href="{% url 'accountapp:delete' pk=user.pk %}">
+        delete
+    </a>
+</div>
+
+{% endif %}
+
+{% endblock %}

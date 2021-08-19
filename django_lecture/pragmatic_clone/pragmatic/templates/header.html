@@ -1,6 +1,9 @@
 <div class ="pragmatic_header" style="text-align: center;">
     <div>
-        <h1 class="pragmatic_logo">Pragmatic</h1> 
+        <a href="{% url 'accountapp:home' %}">
+            <h1 class="pragmatic_logo">Pragmatic</h1>
+        </a>
+        
     </div>
     <div class="nav" style="margin-top:1rem;">
         <a href="#">nav1</a>
@@ -10,14 +13,29 @@
         
         <!-- LOGIN/ LOGOUT -->
         {% if request.user.is_authenticated %}
-            <!-- LOGIN 되어 있는 상태 -->
+        <!-- LOGIN 되어 있는 상태 -->
+
+        <!-- DETAIL VIEW 연결 -->
+        <a href="{% url 'accountapp:detail' pk=target_user.pk %}">
+            detail
+        </a>
+
+        <!-- LOGOUT VIEW 연결 연결 -->
         <a href="{% url 'accountapp:logout' %}">
             logout
         </a>
         {% else %}
             <!-- LOGOUT 되어 있는 상태 -->
+
+        <!-- LOGIN VIEW 연결 연결 -->
         <a href="{% url 'accountapp:login' %}">
             login
+        </a>
+
+
+        <!-- CREATE VIEW 연결 연결 -->
+        <a href="{% url 'accountapp:create' %}">
+            sign up
         </a>
 
         {% endif%}
