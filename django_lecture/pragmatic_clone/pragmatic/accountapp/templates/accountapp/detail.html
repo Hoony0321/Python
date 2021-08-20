@@ -3,7 +3,23 @@
 {% block contents %}
 
 <div style="text-align: center;">
+
     <h1>DETAIL HOMEPAGE</h1>
+
+    {% if target_user.profile %} <!--target_user profile이 있을 경우-->
+        <img src="{{ target_user.profile.image.url }}" alt="Profile Image">
+        <h3>{{ target_user.profile.nickname }}</h3>
+        <h3>{{ target_user.profile.message }}</h3>
+
+        <a href="{% url 'profileapp:update' pk=user.profile.pk %}">
+            Edit Profile
+        </a>
+    {% else %}
+        <h1>No Profile</h1>
+        {% if target_user == request.user %}
+            <a href="{% url 'profileapp:create' %}">CREATE PROFILE</a>
+        {% endif %}
+    {% endif %}
 
     <!-- target_user가 본인일 경우 -->
     {% if target_user == user %}
