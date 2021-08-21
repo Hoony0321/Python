@@ -9,6 +9,7 @@ class ProfileCreateView(CreateView):
     model = Profile
     form_class = ProfileCreateForm
     template_name = 'profileapp/create.html'
+    context_object_name = 'target_profile'
 
     def form_valid(self,form):
         temp_profile = form.save(commit=False)
@@ -18,7 +19,7 @@ class ProfileCreateView(CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        reverse('accountapp:detail', kwargs={'pk' : self.object.user.pk})
+        return reverse_lazy('accountapp:detail', kwargs={'pk' : self.object.user.pk})
 
 class ProfileUpdateView(UpdateView):
     model = Profile
@@ -26,8 +27,11 @@ class ProfileUpdateView(UpdateView):
     template_name = 'profileapp/update.html'
     context_object_name ='target_profile'
 
+
     def get_success_url(self):
-        reverse('accountapp:detail', kwargs={'pk' : self.object.user.pk})
+        return reverse_lazy('accountapp:detail', kwargs={'pk' : self.object.user.pk})
+
+
 
 
 

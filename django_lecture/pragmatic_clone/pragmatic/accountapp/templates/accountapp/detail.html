@@ -11,9 +11,12 @@
         <h3>{{ target_user.profile.nickname }}</h3>
         <h3>{{ target_user.profile.message }}</h3>
 
-        <a href="{% url 'profileapp:update' pk=user.profile.pk %}">
+        {% if target_user == user%}
+        <a href="{% url 'profileapp:update' pk=target_user.profile.pk %}">
             Edit Profile
         </a>
+        {% endif %}
+        
     {% else %}
         <h1>No Profile</h1>
         {% if target_user == request.user %}
