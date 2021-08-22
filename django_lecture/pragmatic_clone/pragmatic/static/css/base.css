@@ -1,11 +1,7 @@
 /* DEFAULT SETTINGS */
-
-a:link, a:visited{
-    text-decoration:none;
-    color: black;
+a{
+    text-decoration: none !important;
 }
-
-
 /* USER SETTINGS */
 
 .pragmatic_logo{

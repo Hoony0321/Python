@@ -9,6 +9,6 @@ class Profile(models.Model):
     # profile이라는 이름으로 이 모델에 접근 할 수 있다고 생각하면 됨.
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
 
-    image = models.ImageField(upload_to='profile/', null=True)
-    nickname = models.CharField(max_length=20, unique=True, null=True)
-    message = models.CharField(max_length=30, null=True)
+    image = models.ImageField(upload_to='profile/', null=True, default="profile/profile_default_img.jpg")
+    nickname = models.CharField(max_length=20, unique=True, null=True, default="NICKNAME NOT SETTED")
+    message = models.CharField(max_length=30, null=True, default="MESSAGE NOT SETTED")
