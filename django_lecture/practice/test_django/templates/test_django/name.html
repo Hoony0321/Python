@@ -6,10 +6,8 @@
     <title>TEST DJANGO</title>
 </head>
 <body>
-    <form action="{% url 'testapp:testForm' %}" method="post">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="OK">
-    </form>
+    {% for item in userList.all %}
+    <h1>{{ item.nickname }}</h1>
+    {% endfor %}
 </body>
 </html>
