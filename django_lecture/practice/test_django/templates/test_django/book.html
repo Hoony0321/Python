@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOOK</title>
+</head>
+<body>
+    
+    <div>
+       
+        <form action="{% url 'testapp:book' %}" method="POST">
+            {% csrf_token %}
+            <input type="text" name="title">
+            <input type="submit" value="SEARCH">
+        </form>
+    </div>
+    
+    <div>
+        <h1>BOOK LIST</h1>
+
+        {% if target %}
+            {% for book in target.all %}
+            <h3 style="background-color: aqua;">
+                {{ book.title }}
+                {{ book.author }}
+                {{ book.price }}
+                {{ book.published_date }}
+            </h3>
+            {% endfor %}
+        
+        {% else %}
+        <h3 style="background-color: aqua;">NO RESULT</h3>
+        
+        {% endif %}
+
+
+
+        {% if bookList %}
+
+        {% for book in bookList.all %}
+
+        <div>
+            <h3>
+                {{ book.title }}
+                {{ book.author }}
+                {{ book.price }}
+                {{ book.published_date }}
+            </h3>
+            
+        </div>
+
+
+        {% endfor %}
+
+        {% endif %}
+    </div>
+</body>
+</html>

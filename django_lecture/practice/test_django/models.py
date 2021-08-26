@@ -7,10 +7,13 @@ class UserRevised(User):
     nickname = models.CharField(max_length=20, null=True)
 
 class Book(models.Model):
-    name = models.CharField(max_length=20, null=False)
+    
+    title = models.CharField(max_length=20, null=False)
     author = models.CharField(max_length=20, null=True)
     price = models.IntegerField(default=0)
     published_date = models.DateField(null=True)
+
+    objects = models.Manager()
 
     
     
