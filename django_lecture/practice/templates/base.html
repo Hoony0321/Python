@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- INCLUDE HEAD HTML FILE -->
+{% include 'head.html' %}
+
+<body>
+
+    <!-- INCLUDE HEADER HTML FILE -->
+    {% include 'header.html' %}
+
+    <hr>
+
+    {% block contents %}
+    {% endblock %}
+
+    <hr>
+
+    <!-- INCLUDE FOOTER HTML FILE -->
+    {% include 'footer.html' %}
+    
+</body>
+
+
+</html>

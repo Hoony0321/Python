@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block contents %}
+
+    <div style="text-align: center; max-width: 500px; margin: 2rem auto;">
+        <div>
+            <h1> My Page </h1>
+        </div>
+
+        <div style="margin-top:2rem;">
+            <h1>THIS PAGE IS MY PAGE</h1>
+
+            <h3>{{ target_user.username }}</h3>
+        </div>
+
+        {% if target_user == request.user %}
+        <div>
+            <a href="{% url 'accountapp:delete' %}">delete account</a>
+
+            <a href="{% url 'accountapp:update' %}">update account</a>
+        </div>
+        {% endif %}
+    </div>
+
+{% endblock %}
