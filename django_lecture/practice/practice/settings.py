@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+from django.urls import reverse_lazy
 from pathlib import Path
 import os
 
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'bootstrap4',
     'test_django',
     'accountapp',
+    'profileapp',
 ]
 
 MIDDLEWARE = [
@@ -140,6 +141,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #REDIRECT URL
 
-LOGIN_REDIRECT_URL = 'accountapp:home'
+LOGIN_REDIRECT_URL = reverse_lazy('accountapp:home')
+LOGOUT_REDIRECT_URL = reverse_lazy('accountapp:login')
 
-LOGOUT_REDIRECT_URL = 'accountapp:login'
+#MEDIA ROOT
+
+MEDIA_URL  = 'media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")

@@ -13,11 +13,26 @@
             <h3>{{ target_user.username }}</h3>
         </div>
 
+        <div style="margin-top:2rem;">
+            {% if not target_user.profile %}
+            <h1> <a href="{% url 'profileapp:create' %}">CREATE PROFILE</a></h1>
+            
+            {% else %}
+            <div>
+                {{ target_user.profile.image }}
+                {{ target_user.profile.nickname }}
+                {{ target_user.profile.message }}
+            </div>
+            <h3> <a href="{% url 'profileapp:update' pk=target_user.profile.pk %}">UPDATE PROFILE</a></h3>
+            {% endif %}
+            
+        </div>
+
         {% if target_user == request.user %}
         <div>
-            <a href="{% url 'accountapp:delete' %}">delete account</a>
+            <a href="{% url 'accountapp:delete' pk=target_user.pk %}">delete account</a>
 
-            <a href="{% url 'accountapp:update' %}">update account</a>
+            <a href="{% url 'accountapp:update' pk=target_user.pk %}">update account</a>
         </div>
         {% endif %}
     </div>

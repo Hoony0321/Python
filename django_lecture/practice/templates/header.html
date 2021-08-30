@@ -1,7 +1,9 @@
 <div style="text-align: center;">
 
     <div class="logo_coin" style="margin-top:2rem;">
-        <h1>COIN</h1>
+        <h1>
+            <a style="text-decoration: none; color: black;" href="{% url 'accountapp:home' %}">COIN</a>
+        </h1>
     </div>
 
     <div>
@@ -11,7 +13,7 @@
 
         {% if request.user.is_authenticated %} 
         <!-- LOGIN -->
-            <a href="{% url 'accountapp:logout'}">logout</a>
+            <a href="{% url 'accountapp:logout' %}">logout</a>
 
             <a href="{% url 'accountapp:detail' pk=request.user.pk %}">MyPage</a>
 

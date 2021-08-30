@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block contents %}
+
+<!-- load bootstrap -->
+{% load bootstrap4 %}
+
+    <div style="text-align: center; max-width: 500px; margin: 2rem auto;">
+        <div>
+            <h1> Delete Account </h1>
+        </div>
+
+        <div style="margin-top:2rem;">
+            <form action="{% url 'accountapp:delete' pk=target_user.pk %}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="DELETE" class="btn btn-danger rounded-pill col-12 mt-4">
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

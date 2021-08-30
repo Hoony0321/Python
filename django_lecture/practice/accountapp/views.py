@@ -4,7 +4,13 @@ from django.contrib.auth.models import User
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
+from accountapp.forms import AccountUpdateForm
+from accountapp.decorators import account_ownership_required
 # Create your views here.
+
+has_ownership = [login_required, account_ownership_required]
 
 @login_required
 def HomeView(request):
@@ -25,13 +31,22 @@ class AccountDetailView(DetailView):
     template_name = "accountapp/detail.html"
     context_object_name = "target_user"
 
+@method_decorator(has_ownership, 'post')
+@method_decorator(has_ownership, 'get')
 class AccountUpdateView(UpdateView):
     model = User
     template_name = "accountapp/update.html"
     context_object_name = "target_user"
-    form_class = "직접 만들어서 설정"
+    form_class = AccountUpdateForm
+    success_url = reverse_lazy("accountapp:home")
 
+    """def get_success_url(self):
+        return reverse_lazy('accountapp:detail', kwargs={'pk' : self.object.pk})"""
+
+@method_decorator(has_ownership, 'post')
+@method_decorator(has_ownership, 'get')
 class AccountDeleteView(DeleteView):
-model = User
-template_name = "accountapp/delete.html"
-context_object_name = "target_user"
+    model = User
+    template_name = "accountapp/delete.html"
+    context_object_name = "target_user"
+    success_url = reverse_lazy("accountapp:login")
