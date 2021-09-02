@@ -4,13 +4,7 @@
 
     <div style="text-align: center; max-width: 500px; margin: 2rem auto;">
         <div>
-            <h1> My Page </h1>
-        </div>
-
-        <div style="margin-top:2rem;">
-            <h1>THIS PAGE IS MY PAGE</h1>
-
-            <h3>{{ target_user.username }}</h3>
+            <h1 style="font-weight: bold;"> {{ target_user.username }} </h1>
         </div>
 
         <div style="margin-top:2rem;">
@@ -19,20 +13,37 @@
             
             {% else %}
             <div>
-                {{ target_user.profile.image }}
-                {{ target_user.profile.nickname }}
-                {{ target_user.profile.message }}
+                <div>
+                    <img style="width:12rem; height:12rem; border-radius:50%;" src="{{ target_user.profile.image.url }}" alt="profile image">
+                </div>
+
+                <div style="margin-top:2rem">
+                    <h3>{{ target_user.profile.nickname }}</h3>
+                    <h5 style="margin-top:1rem">{{ target_user.profile.message }}</h5>
+                </div>
             </div>
-            <h3> <a href="{% url 'profileapp:update' pk=target_user.profile.pk %}">UPDATE PROFILE</a></h3>
+            
             {% endif %}
             
         </div>
 
         {% if target_user == request.user %}
-        <div>
+        <div style="margin-top:3rem;">
+            
+            {% if target_user.profile %}
+            <div>
+                <h3> 
+                    <a href="{% url 'profileapp:update' pk=target_user.profile.pk %}">
+                        UPDATE PROFILE
+                    </a>
+                </h3>
+            </div>
+            {% endif %}
+
+
             <a href="{% url 'accountapp:delete' pk=target_user.pk %}">delete account</a>
 
-            <a href="{% url 'accountapp:update' pk=target_user.pk %}">update account</a>
+            <a style="margin-left:1rem;" href="{% url 'accountapp:update' pk=target_user.pk %}">update account</a>
         </div>
         {% endif %}
     </div>

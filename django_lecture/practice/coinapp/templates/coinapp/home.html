@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block contents %}
+
+    <div style="text-align: center;">
+
+        <table style="margin:4rem auto 2rem; width:80%" class="table table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>코인</th>
+                    <th>현재가</th>
+                    <th>전일 대비</th>
+                    <th>거래량</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for ticker, info in allInfo.items %}
+                    <!-- 20개만 보여주기 -->
+                    {% if forloop.counter0 < 20 %}
+                    <tr>
+                        <td>{{ ticker }}</td>
+
+                        <!--현재가-->
+                        <td>{{ info.closing_price }}</td>
+                        <!--전일대비-->
+                        <td>{{ info.fluctate_rate_24H }}</td>
+                        <!--거래량-->
+                        <td>{{ info.units_traded }}</td> 
+                    </tr>
+                    {% endif %}
+
+
+                {% endfor %}
+            </tbody>
+
+
+        </table>
+
+        <nav aria-label="Page navigation example">
+            <ul style="justify-content: center;" class="pagination">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+        </nav>
+
+    </div>
+
+{% endblock%}

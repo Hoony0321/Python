@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'test_django',
     'accountapp',
     'profileapp',
+    'coinapp',
 ]
 
 MIDDLEWARE = [

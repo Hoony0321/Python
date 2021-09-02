@@ -25,4 +25,10 @@
 
         {% endif %}
     </div>
+
+    <div style="position: absolute; top: 1rem; right: 1.5rem;">
+        {% if request.user.is_authenticated %}
+        <h5>{{ request.user.username }}</h5>
+        {% endif %}
+    </div>
 </div>
