@@ -1,9 +1,70 @@
 {% extends 'base.html' %}
 
 {% block contents %}
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-2.3.3.min.js"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.3.3.min.js"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.3.3.min.js"
+            crossorigin="anonymous"></script>
 
     <div style="text-align: center;">
-        <h3>DETAIL PAGE</h3>
+        <h1>{{ currency }}</h1>
+
+        <button class="addFavorite_btn btn btn-primary rounded-pill">ADD FAVORITE</button>
+
+        <div style="width: 80%; margin:auto auto">
+            <ul class="nav nav-pills" style="justify-content: flex-end;">
+                <li class="nav-item">
+                    <a class="nav-link TBtn" href="?currency={{ currency }}&period=T">분</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link DBtn" href="?currency={{ currency }}&period=D">일</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link 3DBtn" href="?currency={{ currency }}&period=3D">3일</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link WBtn" href="?currency={{ currency }}&period=W">주</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link MBtn" href="?currency={{ currency }}&period=M">월</a>
+                </li>
+            </ul>
+        </div>
+        <div style="width:80%; margin:4rem auto;">
+            {{ plot1_div | safe }}  
+            {{ plot1_script | safe }}  
+        </div>
+
     </div>
+
+    <script>
+        $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+        });
+
+        $(document).ready(function(){
+            btnName = "{{ period }}" + "Btn"
+            $("." + btnName).addClass("active")
+
+            $(".addFavorite_btn").click(function(){
+                $.ajax(
+                    {
+                        type:"POST",
+                        url: 'http://port-8000.django-eogns0321.codeanyapp.com/coins/favorite/',
+                        data: {'data' : "{{ currency }}"},
+                        success: function(data){
+                            alert("데이터전송 성공");
+                        },
+                        error: function(error){
+                            alert("에러");
+                        }
+                    }
+                )
+            });
+        });
+
+    </script>
 
 {% endblock %}

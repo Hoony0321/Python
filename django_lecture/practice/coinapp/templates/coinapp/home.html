@@ -20,7 +20,7 @@
 
                 <tbody>
                     {% for currency, info in post.object_list %}
-                        <tr onclick="changePage('/coins/detail/')">
+                        <tr onclick="changePage('/coins/detail/?currency={{ currency }}')">
                             <td>{{ currency }}</td>
                             <td>{{ info.closing_price }}</td>
                             <td>{{ info.fluctate_rate_24H }}</td>
