@@ -11,8 +11,11 @@
     <div style="text-align: center;">
         <h1>{{ currency }}</h1>
 
+        {% if favorite %}
+        <button class="addFavorite_btn btn btn-secondary rounded-pill disabled">ADD FAVORITE</button>
+        {% else %}
         <button class="addFavorite_btn btn btn-primary rounded-pill">ADD FAVORITE</button>
-
+        {% endif %}
         <div style="width: 80%; margin:auto auto">
             <ul class="nav nav-pills" style="justify-content: flex-end;">
                 <li class="nav-item">
@@ -45,6 +48,7 @@
         });
 
         $(document).ready(function(){
+
             btnName = "{{ period }}" + "Btn"
             $("." + btnName).addClass("active")
 

@@ -27,8 +27,10 @@ def home(request):
     paginator = Paginator(tuple(allInfo.items()), number_of_object_in_page)
     page = request.GET.get('page' , 1)
     post = paginator.get_page(page)
+
+    favorite = request.user.profile.favorite
     
-    return render(request,'coinapp/home.html', {'post' : post } )
+    return render(request,'coinapp/home.html', {'post' : post , 'favorite' : favorite } )
 
 def DetailView(request):
     
@@ -83,11 +85,20 @@ def DetailView(request):
 
     script, div = components(plot)
 
-    return render(request, 'coinapp/detail.html', {'currency' : currency , 'plot1_script' : script, 'plot1_div' : div , 'period' : period })
+    ###FAVORITE 설정
+    fav_dict = json.loads(request.user.profile.favorite)
+    favorite = False
+    if currency in fav_dict.values():
+        favorite = True
+
+    print(favorite)
+
+    return render(request, 'coinapp/detail.html', {'currency' : currency , 'plot1_script' : script, 'plot1_div' : div , 'period' : period , 'favorite' : favorite })
 
 
 def FavoriteView(request):
     curUser = request.user
+    data = None
 
     if request.method == 'POST':
 
@@ -97,19 +108,31 @@ def FavoriteView(request):
             Profile.objects.filter(user=request.user).update(favorite=json.dumps(temp_dict))
         else:
             temp_dict = json.loads(curUser.profile.favorite)
-            index = '2'
+            index = 2
             while(True):
-                if not index in temp_dict:
-                    temp_dict[2] = currency
+                if not str(index) in temp_dict:
+                    temp_dict[index] = currency
                     break
                 
-                index = str(int(index) + 1)
-
-            
-            print(temp_dict)
+                index += 1
+            Profile.objects.filter(user=request.user).update(favorite=json.dumps(temp_dict))
     
     else:
-        Profile.objects.filter(user=request.user).update(favorite=None)
+        #currency 정보 가져오기
+        data = json.loads(curUser.profile.favorite)
+        allInfo = pybit.get_current_price("ALL")
+        info = {}
+        for ticker in data.values():
+            ticker_info = allInfo[ticker]
+            info[ticker] = ticker_info
         
-    return render(request, 'coinapp/favorite.html', { 'data' : "NONE" } )
+        #pagination 하기
+        number_of_object_in_page = 10
+        paginator = Paginator(tuple(info.items()), number_of_object_in_page)
+        page = request.GET.get('page' , 1)
+        post = paginator.get_page(page)
+
+        data = post
+        
+    return render(request, 'coinapp/favorite.html', { 'data' : data } )
     

@@ -5,6 +5,20 @@
 
 {% block contents %}
 
+    <style>
+
+    .favorite_btn{
+        background-color: transparent;
+        border: none;
+        position: absolute;
+        left:0;
+        top:50%;
+        transform: translateY(-50%);
+        z-index: 10;
+    }
+
+    </style>
+
     <div style="text-align: center;">
 
         <div style="width:80%; margin:4rem auto 2rem; ">
@@ -21,7 +35,12 @@
                 <tbody>
                     {% for currency, info in post.object_list %}
                         <tr onclick="changePage('/coins/detail/?currency={{ currency }}')">
-                            <td>{{ currency }}</td>
+                            <td style="position: relative;" class="item">
+                                <button class="favorite_btn">
+                                    <i class="far fa-star"></i>
+                                </button>
+                                {{ currency }}
+                            </td>
                             <td>{{ info.closing_price }}</td>
                             <td>{{ info.fluctate_rate_24H }}</td>
                             <td>{{ info.acc_trade_value }}</td>
@@ -71,10 +90,76 @@
     </div>
 
     <script>
-        
+        $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+        });
+
         function changePage(str){
             location.href = str;
         }
+
+
+        $(document).ready(function(){
+
+
+            /* favorite  설정 */
+            var favoriteItem = $(".item");
+            var favoriteInfo = JSON.parse('{{ favorite | safe }}');
+
+            for(let i = 0; i < favoriteItem.length; i++){
+                item = $(favoriteItem[i]);
+                target = $.trim(item.text());
+                
+                for(let key in favoriteInfo){
+                    if(target == favoriteInfo[key]){
+                        item.addClass("favorite");
+                        child = item.children().children();
+                        child.addClass("fas").removeClass("far")
+                        break;
+                    }
+                }
+            }
+
+            /* favorite btn 설정 */
+            $(".favorite_btn").click(function(e){
+                //STOP ROW EVENT
+                e.stopPropagation();
+                //NOW YOUR STUFF
+
+                is_favorite = $($(this).closest(".item")).is(".favorite");
+
+                //FAVORITE 아닌 상태
+                if(!is_favorite){
+                    $(this).children().addClass("fas").removeClass("far");
+                    let target = $.trim($(this).closest(".item").text());
+                    $.ajax(
+                        {
+                            type:"POST",
+                            url: 'http://port-8000.django-eogns0321.codeanyapp.com/coins/favorite/',
+                            data: {'data' : target},
+                            success: function(data){
+                                alert("성공!");
+                            },
+                            error: function(error){
+                                alert("에러");
+                            }
+                        }
+                    );
+                }
+                else{
+                    //FAVORITE인 상태
+                    $(this).children().addClass("far").removeClass("fas");
+
+                    //user favorite에서 해당 항목 없애기.
+                }
+
+
+                
+            });
+
+        });
+        
+
         
 
     </script>

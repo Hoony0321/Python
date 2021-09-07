@@ -17,9 +17,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from coinapp.views import home
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', home),
     path('test/', include('test_django.urls')),
     path('accounts/', include('accountapp.urls')),
     path('profiles/', include('profileapp.urls')),

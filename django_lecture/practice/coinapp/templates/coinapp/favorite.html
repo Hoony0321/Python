@@ -5,11 +5,88 @@
 
 {% block contents %}
 
-    <div>
-        <h1>FAVORITE PAGE</h1>
+    <div style="text-align: center;">
 
-        <p>{{ data }}</p>
+        {% if request.user.profile.favorite %}
+
+        <div style="width:80%; margin:4rem auto 2rem; ">
+            <table class="table table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th style="width:30%">이름</th>
+                        <th>현재가</th>
+                        <th>전일대비</th>
+                        <th>거래대금</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for currency, info in data.object_list %}
+                        <tr onclick="changePage('/coins/detail/?currency={{ currency }}')">
+                            <td>{{ currency }}</td>
+                            <td>{{ info.closing_price }}</td>
+                            <td>{{ info.fluctate_rate_24H }}</td>
+                            <td>{{ info.acc_trade_value }}</td>
+                        </tr>
+                        
+
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 페이지 번호 -->
+        <nav aria-label="Page navigation example">
+            <ul style="justify-content: center;" class="pagination">
+
+                {% if data.has_previous %}
+                <!-- 이전 페이지 존재 O -->
+                <li class="page-item"><a class="page-link" href="?page={{ data.previous_page_number }}">Previous</a></li>
+                {% else %}
+                <!-- 이전 페이지 존재 X -->
+                <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                {% endif %}
+
+
+                <!-- 현 페이지 표시 -->
+
+                <li class="page-item">
+                    <a class="page-link" href="#">
+                        {{ data.number }} / {{ data.paginator.num_pages }}
+                    </a>
+                </li>
+
+
+
+                {% if data.has_next %}
+                <!-- 다음 페이지 존재 O -->
+                <li class="page-item"><a class="page-link" href="?page={{ data.next_page_number }}">Next</a></li>
+                {% else %}
+                <!-- 다음 페이지 존재 X -->
+                <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                {% endif %}
+                
+
+            </ul>
+        </nav>
+
+
+        {% else %}
+
+            <h1>NO FAVORITE ITEM</h1>
+
+        {% endif %}
+
     </div>
+
+    <script>
+        
+        function changePage(str){
+            location.href = str;
+        }
+        
+
+    </script>
 
    
 

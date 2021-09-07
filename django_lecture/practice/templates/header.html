@@ -2,20 +2,19 @@
 
     <div class="logo_coin" style="margin-top:2rem;">
         <h1>
-            <a style="text-decoration: none; color: black;" href="{% url 'accountapp:home' %}">COIN</a>
+            <a style="text-decoration: none; color: black;" href="{% url 'coinapp:home' %}">COIN</a>
         </h1>
     </div>
 
     <div>
-        <a href="">nav1</a>
-        <a href="">nav2</a>
-        <a href="">nav3</a>
+        <a href="{% url 'coinapp:home' %}">home</a>
+        <a href="{% url 'coinapp:favorite' %}">favorite</a>
 
         {% if request.user.is_authenticated %} 
         <!-- LOGIN -->
-            <a href="{% url 'accountapp:logout' %}">logout</a>
-
             <a href="{% url 'accountapp:detail' pk=request.user.pk %}">MyPage</a>
+
+            <a href="{% url 'accountapp:logout' %}">logout</a>
 
         {% else %} 
         <!-- NOT LOGIN -->
