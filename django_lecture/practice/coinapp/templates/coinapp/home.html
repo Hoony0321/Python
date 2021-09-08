@@ -98,13 +98,14 @@
             location.href = str;
         }
 
-
-        $(document).ready(function(){
-
-
+        function setFavoriteBtn(){
             /* favorite  설정 */
             var favoriteItem = $(".item");
-            var favoriteInfo = JSON.parse('{{ favorite | safe }}');
+
+            jsonData = '{{ favorite | safe }}'
+            if(jsonData == 'None' ){ return; }
+
+            var favoriteInfo = JSON.parse(jsonData);
 
             for(let i = 0; i < favoriteItem.length; i++){
                 item = $(favoriteItem[i]);
@@ -119,13 +120,24 @@
                     }
                 }
             }
+        }
 
-            /* favorite btn 설정 */
+
+
+        $(document).ready(function(){
+
+            //SETTING FAVORITE BTN STATUS
+            //if it's favorite item, favorite btn's img full star
+            //otherwise it's empty star
+            setFavoriteBtn();
+            
+            //SETTING FAVORITE BTN CLICK FUNCTION
             $(".favorite_btn").click(function(e){
+
                 //STOP ROW EVENT
                 e.stopPropagation();
-                //NOW YOUR STUFF
 
+                //CLICK EVENT
                 is_favorite = $($(this).closest(".item")).is(".favorite");
 
                 //FAVORITE 아닌 상태
@@ -136,25 +148,42 @@
                         {
                             type:"POST",
                             url: 'http://port-8000.django-eogns0321.codeanyapp.com/coins/favorite/',
-                            data: {'data' : target},
+                            data: {'add' : target},
                             success: function(data){
-                                alert("성공!");
+                                alert("ADD ITEM!");
                             },
                             error: function(error){
                                 alert("에러");
                             }
                         }
                     );
+
+                    $(this).closest(".item").addClass("favorite");
                 }
                 else{
                     //FAVORITE인 상태
+                    
+                    //convert favorite_btn img to empty star
                     $(this).children().addClass("far").removeClass("fas");
 
                     //user favorite에서 해당 항목 없애기.
+
+                    $(this).closest(".item").removeClass("favorite");
+
+                    let target = $.trim($(this).closest(".item").text());
+                    $.ajax({
+                        type:"POST",
+                        url : 'http://port-8000.django-eogns0321.codeanyapp.com/coins/favorite/',
+                        data : {'delete' : target },
+                        success: function(data){
+                            alert("DELETE ITEM!!");
+                        },
+                        error: function(error){
+                            alert("에러!");
+                        }
+                    });
+
                 }
-
-
-                
             });
 
         });

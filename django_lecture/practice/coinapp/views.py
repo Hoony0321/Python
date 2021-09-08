@@ -2,7 +2,9 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from profileapp.models import Profile
-# Create your views here.
+from coinapp.decorators import account_has_profile
+
+
 
 #BITCOIN IMPORT
 import pybithumb as pybit
@@ -19,6 +21,7 @@ import pandas as pd
 
 
 @login_required
+@account_has_profile
 def home(request):
     
     allInfo = pybit.get_current_price("ALL")
@@ -32,6 +35,8 @@ def home(request):
     
     return render(request,'coinapp/home.html', {'post' : post , 'favorite' : favorite } )
 
+
+@account_has_profile
 def DetailView(request):
     
     currency = request.GET.get('currency', 'BTC')
@@ -86,43 +91,59 @@ def DetailView(request):
     script, div = components(plot)
 
     ###FAVORITE 설정
-    fav_dict = json.loads(request.user.profile.favorite)
     favorite = False
-    if currency in fav_dict.values():
-        favorite = True
 
-    print(favorite)
+    favorite_list = json.loads(request.user.profile.favorite)
+    print(favorite_list)
+    print(type(favorite_list))
+
+    if request.user.profile.favorite:
+        #null이 아닐 경우
+        favorite_list = json.loads(request.user.profile.favorite)
+        if currency in favorite_list:
+            favorite = True
+
+    
+    
+    
 
     return render(request, 'coinapp/detail.html', {'currency' : currency , 'plot1_script' : script, 'plot1_div' : div , 'period' : period , 'favorite' : favorite })
 
-
+@account_has_profile
 def FavoriteView(request):
     curUser = request.user
     data = None
 
     if request.method == 'POST':
 
-        currency = request.POST['data']
-        if curUser.profile.favorite == None:
-            temp_dict = {'1' : currency}
-            Profile.objects.filter(user=request.user).update(favorite=json.dumps(temp_dict))
+        addItem = request.POST.get('add', None)
+        deleteItem = request.POST.get('delete', None)
+
+        if not addItem == None:
+            #새로운 favorite item 추가
+            if curUser.profile.favorite == None:
+                #favorite가 null일 경우 -> 새롭게 배열 생성
+                favorite_list = [addItem]
+                Profile.objects.filter(user=curUser).update(favorite=json.dumps(favorite_list))
+            else:
+                #favorite가 존재할 경우 -> 배열 뒤에 addItem 추가
+                favorite_list = json.loads(curUser.profile.favorite)
+                favorite_list.append(addItem)
+                Profile.objects.filter(user=curUser).update(favorite=json.dumps(favorite_list))
         else:
-            temp_dict = json.loads(curUser.profile.favorite)
-            index = 2
-            while(True):
-                if not str(index) in temp_dict:
-                    temp_dict[index] = currency
-                    break
-                
-                index += 1
-            Profile.objects.filter(user=request.user).update(favorite=json.dumps(temp_dict))
+            #기존 favorite item 삭제
+            favorite_list = json.loads(curUser.profile.favorite)
+            favorite_list.remove(deleteItem)
+            Profile.objects.filter(user=curUser).update(favorite=json.dumps(favorite_list))
+
+
     
     else:
-        #currency 정보 가져오기
-        data = json.loads(curUser.profile.favorite)
+        #Profile favorite 가져오기
+        favorite_list = json.loads(curUser.profile.favorite)
         allInfo = pybit.get_current_price("ALL")
         info = {}
-        for ticker in data.values():
+        for ticker in favorite_list:
             ticker_info = allInfo[ticker]
             info[ticker] = ticker_info
         

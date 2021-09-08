@@ -11,11 +11,10 @@
     <div style="text-align: center;">
         <h1>{{ currency }}</h1>
 
-        {% if favorite %}
-        <button class="addFavorite_btn btn btn-secondary rounded-pill disabled">ADD FAVORITE</button>
-        {% else %}
-        <button class="addFavorite_btn btn btn-primary rounded-pill">ADD FAVORITE</button>
-        {% endif %}
+        <!-- FAVORITE FUNCTION BTNS -->
+        <button class="deleteFavorite_btn btn btn-secondary rounded-pill mt-3" style="display: none;">DELETE FAVORITE</button>
+        <button class="addFavorite_btn btn btn-primary rounded-pill mt-3" style="display: none;">ADD FAVORITE</button>
+
         <div style="width: 80%; margin:auto auto">
             <ul class="nav nav-pills" style="justify-content: flex-end;">
                 <li class="nav-item">
@@ -48,24 +47,65 @@
         });
 
         $(document).ready(function(){
+            is_favorite = '{{ favorite }}';
 
-            btnName = "{{ period }}" + "Btn"
-            $("." + btnName).addClass("active")
+            btnName = "{{ period }}" + "Btn";
+            $("." + btnName).addClass("active");
 
-            $(".addFavorite_btn").click(function(){
+            addFavoriteBtn = $(".addFavorite_btn");
+            deleteFavoriteBtn = $(".deleteFavorite_btn");
+
+            //SETTING WHICH BTN IS DISPLAY
+            if(is_favorite){
+                deleteFavoriteBtn.show();
+            }
+            else{
+                addFavoriteBtn.show();
+            }
+
+            //SETTING BTN CLICK EVENT
+
+            addFavoriteBtn.click(function(){
                 $.ajax(
                     {
                         type:"POST",
                         url: 'http://port-8000.django-eogns0321.codeanyapp.com/coins/favorite/',
-                        data: {'data' : "{{ currency }}"},
+                        data: {'add' : "{{ currency }}"},
                         success: function(data){
                             alert("데이터전송 성공");
                         },
-                        error: function(error){
-                            alert("에러");
+                        error:function(request,status,error){
+                            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
                         }
                     }
                 )
+
+
+                //BTN DISPLAY SETTING
+                addFavoriteBtn.toggle();
+                deleteFavoriteBtn.toggle();
+                
+            });
+
+            deleteFavoriteBtn.click(function(){
+                $.ajax(
+                    {
+                        type:"POST",
+                        url: 'http://port-8000.django-eogns0321.codeanyapp.com/coins/favorite/',
+                        data: {'delete' : "{{ currency }}"},
+                        success: function(data){
+                            alert("데이터전송 성공");
+                        },
+                        error:function(request,status,error){
+                            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                        }
+                    }
+                )
+
+                //BTN DISPLAY SETTING
+                deleteFavoriteBtn.toggle();
+                addFavoriteBtn.toggle();
+                
             });
         });
 
