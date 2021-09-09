@@ -48,7 +48,6 @@
 
         $(document).ready(function(){
             is_favorite = '{{ favorite }}';
-
             btnName = "{{ period }}" + "Btn";
             $("." + btnName).addClass("active");
 
@@ -56,7 +55,7 @@
             deleteFavoriteBtn = $(".deleteFavorite_btn");
 
             //SETTING WHICH BTN IS DISPLAY
-            if(is_favorite){
+            if(is_favorite === 'True'){
                 deleteFavoriteBtn.show();
             }
             else{

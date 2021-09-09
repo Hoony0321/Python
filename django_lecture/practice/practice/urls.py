@@ -26,4 +26,5 @@ urlpatterns = [
     path('accounts/', include('accountapp.urls')),
     path('profiles/', include('profileapp.urls')),
     path('coins/', include('coinapp.urls')),
+    path('ajax/', include('ajaxapp.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

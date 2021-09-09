@@ -1,12 +1,22 @@
-import json
+class Model:
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
 
-tempList = [1,2,3,4,5,6]
+    def area(self):
+        print("할머니 area")
 
-jsonObj = json.dumps(tempList)
 
-jsonReturn = json.loads(jsonObj)
+    def perimeter(self):
+        print(self.width * 2 + self.height * 2)
 
-print(type(jsonReturn))
+class Rectangle(Model):
+    def __init__(self,length):
+        super().__init__(length, length)
+    
+    def area(self):
+        print("부모 area")
 
-if 1 in jsonReturn:
+
+class Cube(Rectangle):
     

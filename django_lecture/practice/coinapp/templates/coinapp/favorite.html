@@ -7,7 +7,7 @@
 
     <div style="text-align: center;">
 
-        {% if request.user.profile.favorite %}
+        {% if request.user.profile.favorite and not data is None %}
 
         <div style="width:80%; margin:4rem auto 2rem; ">
             <table class="table table-hover">

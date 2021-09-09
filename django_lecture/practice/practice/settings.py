@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'accountapp',
     'profileapp',
     'coinapp',
+    'ajaxapp',
 ]
 
 MIDDLEWARE = [

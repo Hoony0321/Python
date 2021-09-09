@@ -93,15 +93,14 @@ def DetailView(request):
     ###FAVORITE 설정
     favorite = False
 
-    favorite_list = json.loads(request.user.profile.favorite)
-    print(favorite_list)
-    print(type(favorite_list))
+    json_data = request.user.profile.favorite
 
-    if request.user.profile.favorite:
-        #null이 아닐 경우
-        favorite_list = json.loads(request.user.profile.favorite)
+    if not json_data is None:
+        #None이 아닐 경우
+        favorite_list = json.loads(json_data)
         if currency in favorite_list:
             favorite = True
+    
 
     
     
@@ -138,22 +137,28 @@ def FavoriteView(request):
 
 
     
-    else:
-        #Profile favorite 가져오기
-        favorite_list = json.loads(curUser.profile.favorite)
-        allInfo = pybit.get_current_price("ALL")
-        info = {}
-        for ticker in favorite_list:
-            ticker_info = allInfo[ticker]
-            info[ticker] = ticker_info
-        
-        #pagination 하기
-        number_of_object_in_page = 10
-        paginator = Paginator(tuple(info.items()), number_of_object_in_page)
-        page = request.GET.get('page' , 1)
-        post = paginator.get_page(page)
+    else: #request.method = GET
 
-        data = post
+        json_data = curUser.profile.favorite
+
+        if not json_data is None:
+            #Profile favorite 가져오기
+            favorite_list = json.loads(curUser.profile.favorite)
+            allInfo = pybit.get_current_price("ALL")
+            info = {}
+            for ticker in favorite_list:
+                ticker_info = allInfo[ticker]
+                info[ticker] = ticker_info
+        
+            #pagination 하기
+            number_of_object_in_page = 10
+            paginator = Paginator(tuple(info.items()), number_of_object_in_page)
+            page = request.GET.get('page' , 1)
+            post = paginator.get_page(page)
+
+            data = post
+            
+            if paginator.count == 0: data = None
         
     return render(request, 'coinapp/favorite.html', { 'data' : data } )
     
