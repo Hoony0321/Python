@@ -13,6 +13,7 @@ class HomeView(ListView):
     template_name = 'todoapp/home.html'
     context_object_name = 'todoList'
 
+
     def post(self,request,*args,**kwargs):
 
 
@@ -30,8 +31,16 @@ class HomeView(ListView):
             todoObj = Todo.objects.filter(name=recieve_data[0]);
             todoObj.update(complete= True if recieve_data[1] == "True" else False );
 
+        elif 'delete' in request.POST: #CASE 3 : 사용자가 clear_btn을 클릭했을 경우
+            completeList = json.loads(request.POST.get("delete"));
+            
+            for _name in completeList:
+                Todo.objects.filter(name=_name).delete();
+
 
         #get방식 page로 리턴
         return HttpResponseRedirect(reverse_lazy('todoapp:home'))
+
+    
 
 

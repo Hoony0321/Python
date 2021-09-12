@@ -3,10 +3,14 @@
 
 
 {% block contents %}
+
+{% load home %} <!-- template tags file load-->
+
     <style>
-        li{
-            display:flex !important;
+        .list-group-item{
+            display:flex ;
             padding:1rem 0.5rem !important; 
+            align-items: center;
         }
 
         .completed > h4, .completed > button{
@@ -17,17 +21,26 @@
 
     <div style="text-align: center; width:100%; height:100%;">
 
-        <div style="width:50%; margin:2rem auto" class="content">
+        <h1 class="title" style="margin-top: 2rem; font-size: 3rem;">
+            TODOAPP
+        </h1>
 
-            <form action="{% url 'todoapp:home' %}" method="post">
+
+        <div style="width:50%; margin:4rem auto" class="content">
+
+            <form action="{% url 'todoapp:home' %}" method="post" style="width:100%;">
                 {% csrf_token %}
-                <input type="text" name="todo_field">
-                <input type="submit" value="OK">
+                <div class="input-group">
+                    <input type="text" name="todo_field" autofocus="true" placeholder="Write item to do" class="form-control"
+                        style="padding:1rem 1rem; font-size:1.5rem; border-bottom-left-radius: 0; ">
+                    <input type="submit" value="OK" class="btn btn-secondary" style="padding:1rem 0.5rem; font-size:1.5rem; width:15%; border-bottom-right-radius: 0;">
+                </div>
+
             </form>
 
-            <div style="margin-top:2rem">
+            <div>
                 {% if todoList %}
-                <ul class="list-group">
+                <ul class="list-group" style="border-radius: 0;">
                     {% for item in todoList %}
 
                         {% if item.complete %} <!-- complete 된 상태 -->
@@ -38,7 +51,7 @@
                             <h4 style="margin-left:1rem;">{{ item.name }}</h4>
                         </li>
                         {% else %} <!-- complete 안 된 상태-->
-                        <li class="list-group-item">
+                        <li class="list-group-item actived">
                             <button class="completed_btn btn">
                                 <i style="font-size: 2rem;" class="far fa-circle"></i>
                             </button>
@@ -51,16 +64,18 @@
                 {% endif %}
             </div>
 
-            <div style="display: flex; justify-content: space-between; background: white; padding: 2rem auto;">
-                <h4> REMAIN ITEM</h4>
+            <div style="display: flex; justify-content: space-between; align-items: center; background: white; padding: 1rem 1rem !important;" class="rounded-bottom list-group-item">
+                <h4> 
+                    <span class="left_item">{% get_leftItem %}</span> item to do 
+                </h4>
 
                 <div>
-                    <button class="btn">ALL</button>
-                    <button class="btn">Active</button>
-                    <button class="btn">Completed</button>
+                    <button class="btn all_btn btn-primary">ALL</button>
+                    <button class="btn active_btn">Active</button>
+                    <button class="btn complete_btn">Completed</button>
                 </div>
 
-                <button class="btn">Clear completed</button>
+                <button class="btn clear_btn">Clear completed</button>
             </div>
         </div>
 
@@ -69,18 +84,20 @@
     <script>
 
         $(document).ready(function(){
-            //초기 button img 설정
-
-
 
             //ajax token 설정
             $.ajaxSetup({
                 headers : {'X-CSRFToken' : '{{ csrf_token }}'}
             });
 
-            //row items 설정
+            //object 변수 
             $row_items = $('.list-group-item');
+            $left_item = $('.left_item');
 
+            $allBtn = $('.all_btn');
+            $activeBtn = $('.active_btn');
+            $completeBtn = $('.complete_btn');
+            $clearBtn = $('.clear_btn');
 
             //COMPLTED_BTN FUNCTION SETTING
             $completed_btn = $(".completed_btn");
@@ -97,6 +114,8 @@
 
                     //row_item에 completed 클래스 제거
                     $row_item.removeClass("completed");
+                    //row_item에 actived 클래스 cnrk
+                    $row_item.addClass("actived");
 
                     //ajax로 complete 속성 false로 변경
                     $.ajax(
@@ -115,6 +134,9 @@
 
                         }
                     );
+
+                    //left_item text 변경
+                    $left_item.text(Number($left_item.text()) +1);
                 }
                 else{
                     //button img 변경
@@ -122,6 +144,8 @@
 
                     //row_item에 completed 클래스 추가
                     $row_item.addClass("completed");
+                    //row_item에 actived 클래스 제거
+                    $row_item.removeClass("actived");
 
                     //ajax로 complete 속성 true로 변경
                     $.ajax(
@@ -139,11 +163,83 @@
 
                         }
                     );
+
+                    //left_item text 변경
+                    $left_item.text(Number($left_item.text()) -1);
+
+
                 }
 
+            });
+            
+            //Button settings
+            $allBtn.click(function(){
+                $completed_items = $('.completed');
+                $active_items = $('.actived');
 
+                $completed_items.fadeIn("slow");
+                $active_items.fadeIn("slow");
+                
+                $completeBtn.removeClass("btn-primary");
+                $activeBtn.removeClass("btn-primary");
+                $(this).addClass("btn-primary");
+            });
+            $completeBtn.click(function(){
+                $completed_items = $('.completed');
+                $active_items = $('.actived');
+
+                $active_items.fadeOut("slow", function(){
+                    $completed_items.fadeIn("slow");
+                });
+            
+                $allBtn.removeClass("btn-primary");
+                $activeBtn.removeClass("btn-primary");
+                $(this).addClass("btn-primary");
+            });
+            $activeBtn.click(function(){
+                $completed_items = $('.completed');
+                $active_items = $('.actived');
+                
+                console.log($active_items);
+                $completed_items.fadeOut("slow", function(){
+                    $active_items.fadeIn("slow");
+                });
+
+                $completeBtn.removeClass("btn-primary");
+                $allBtn.removeClass("btn-primary");
+                $(this).addClass("btn-primary");
+                
+            });
+            $clearBtn.click(function(){
+                $completed_items = $('.completed');
+                $completed_items.fadeOut("slow", function(){
+                    $completed_items.remove();
+                });
+                
+                
+                completed_name = [];
+                for(let i = 0; i < $completed_items.length; i++){
+                    completed_name.push($.trim($($completed_items[i]).text()));
+                }
+                //ajax로 complete 된 item 삭제 요청
+                $.ajax(
+                    {
+                        type : "POST",
+                        url : "{% url 'todoapp:home' %}",
+                        data : {'delete' : JSON.stringify(completed_name) },
+                        success : function(response){
+                            console.log("성공");
+                        },
+                        error : function(e){
+                            alert("데이터 전송 실패!")
+                        }
+
+
+                    }
+                );
 
             });
+
         });
         
     </script>

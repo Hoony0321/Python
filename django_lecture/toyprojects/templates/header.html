@@ -1,0 +1,20 @@
+<style>
+    .nav > li > h5 > a{
+        text-decoration: underline;
+        text-underline-position: under;
+    }
+</style>
+
+<div style="text-align: center;">
+
+    <h1 class="title_logo" style="margin:2rem auto; font-family:var(--font-bold);">
+        <a href="http://port-8000.django-eogns0321.codeanyapp.com/"> <!-- THIS IS HARDCODING -->
+            My ToyProject
+        </a>
+    </h1>
+
+    <ul class="nav" style="justify-content: center;">
+        <li><h5><a href="{% url 'todoapp:home' %}">TODO</a></h5></li>
+    </ul> 
+
+</div>
