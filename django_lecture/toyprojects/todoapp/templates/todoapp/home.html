@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+
+
+
+{% block contents %}
+    <style>
+        li{
+            display:flex !important;
+            padding:1rem 0.5rem !important; 
+        }
+
+        .completed > h4, .completed > button{
+            opacity: 0.1;
+            text-decoration: line-through;
+        }
+    </style>
+
+    <div style="text-align: center; width:100%; height:100%;">
+
+        <div style="width:50%; margin:2rem auto" class="content">
+
+            <form action="{% url 'todoapp:home' %}" method="post">
+                {% csrf_token %}
+                <input type="text" name="todo_field">
+                <input type="submit" value="OK">
+            </form>
+
+            <div style="margin-top:2rem">
+                {% if todoList %}
+                <ul class="list-group">
+                    {% for item in todoList %}
+
+                        {% if item.complete %} <!-- complete 된 상태 -->
+                        <li class="list-group-item completed">
+                            <button class="completed_btn btn">
+                                <i style="font-size: 2rem;" class="far fa-check-circle"></i>
+                            </button>
+                            <h4 style="margin-left:1rem;">{{ item.name }}</h4>
+                        </li>
+                        {% else %} <!-- complete 안 된 상태-->
+                        <li class="list-group-item">
+                            <button class="completed_btn btn">
+                                <i style="font-size: 2rem;" class="far fa-circle"></i>
+                            </button>
+                            <h4 style="margin-left:1rem;">{{ item.name }}</h4>
+                        </li>
+                        {% endif %}
+                    
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+
+            <div style="display: flex; justify-content: space-between; background: white; padding: 2rem auto;">
+                <h4> REMAIN ITEM</h4>
+
+                <div>
+                    <button class="btn">ALL</button>
+                    <button class="btn">Active</button>
+                    <button class="btn">Completed</button>
+                </div>
+
+                <button class="btn">Clear completed</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+
+        $(document).ready(function(){
+            //초기 button img 설정
+
+
+
+            //ajax token 설정
+            $.ajaxSetup({
+                headers : {'X-CSRFToken' : '{{ csrf_token }}'}
+            });
+
+            //row items 설정
+            $row_items = $('.list-group-item');
+
+
+            //COMPLTED_BTN FUNCTION SETTING
+            $completed_btn = $(".completed_btn");
+            $completed_btn.click(function(){
+                $row_item = $(this).closest("li"); //해당 버튼의 row object
+                $button_img = $(this).children("i"); //해당 버튼의 button img object
+                todo_name = $row_item.children("h4").text();
+
+               
+                //***row item의 complete 상태에 따라 ajax 설정***//
+                if($row_item.is(".completed") === true){ //이미 completed된 상태
+                    //button img 변경
+                    $button_img.addClass("fa-circle").removeClass("fa-check-circle");
+
+                    //row_item에 completed 클래스 제거
+                    $row_item.removeClass("completed");
+
+                    //ajax로 complete 속성 false로 변경
+                    $.ajax(
+                        {
+                            type : "POST",
+                            url : "{% url 'todoapp:home' %}",
+                            data : {'complete' : JSON.stringify([todo_name, "False"]) },
+                            traditional : true,
+                            success : function(response){
+                                console.log("성공");
+                            },
+                            error : function(e){
+                                alert("데이터 전송 실패!")
+                            }
+
+
+                        }
+                    );
+                }
+                else{
+                    //button img 변경
+                    $button_img.addClass("fa-check-circle").removeClass("fa-circle");
+
+                    //row_item에 completed 클래스 추가
+                    $row_item.addClass("completed");
+
+                    //ajax로 complete 속성 true로 변경
+                    $.ajax(
+                        {
+                            type : "POST",
+                            url : "{% url 'todoapp:home' %}",
+                            data : {'complete' : JSON.stringify([todo_name, "True"]) },
+                            success : function(response){
+                                console.log("성공");
+                            },
+                            error : function(e){
+                                alert("데이터 전송 실패!")
+                            }
+
+
+                        }
+                    );
+                }
+
+
+
+            });
+        });
+        
+    </script>
+{% endblock %}
