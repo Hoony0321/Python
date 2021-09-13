@@ -21,7 +21,7 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name="base.html"), name='home'), #Home site url
     
     path('todo/', include('todoapp.urls')), #TODOAPP URLS CONNECT
-    
+    path('note/', include('noteapp.urls')),
     
     path('admin/', admin.site.urls), #Admin site url
 ]

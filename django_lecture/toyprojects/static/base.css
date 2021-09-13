@@ -9,6 +9,32 @@
 
 }
 
+body{
+    height:100vh;
+    background-color: var(--color-basic);
+    font-family: var(--font-basic);
+}
+
+li{
+    list-style: none;
+}
+
+a{
+    text-decoration: none;
+    color:black;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 @font-face {
     font-family: 'Cafe24Ssurround';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24Ssurround.woff') format('woff');
@@ -21,14 +47,4 @@
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-}
-
-
-li{
-    list-style: none;
-}
-
-a{
-    text-decoration: none;
-    color:black;
 }
