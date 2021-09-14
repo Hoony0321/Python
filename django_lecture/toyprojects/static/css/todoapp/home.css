@@ -1,0 +1,10 @@
+.list-group-item{
+    display:flex ;
+    padding:1rem 0.5rem !important; 
+    align-items: center;
+}
+
+.completed > h4, .completed > button{
+    opacity: 0.1;
+    text-decoration: line-through;
+}
