@@ -29,7 +29,7 @@ class HomeView(ListView):
             recieve_data = json.loads(request.POST.get("complete"));
             
             todoObj = Todo.objects.filter(name=recieve_data[0]);
-            todoObj.update(complete= True if recieve_data[1] == "True" else False );
+            todoObj.update(complete= True if recieve_data[1] else False );
 
         elif 'delete' in request.POST: #CASE 3 : 사용자가 clear_btn을 클릭했을 경우
             completeList = json.loads(request.POST.get("delete"));

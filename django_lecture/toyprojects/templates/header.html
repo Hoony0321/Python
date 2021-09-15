@@ -3,6 +3,10 @@
         text-decoration: underline;
         text-underline-position: under;
     }
+
+    .nav > li{
+        padding: 0 1rem;
+    }
 </style>
 
 <header style="text-align: center; padding-top:1.5rem; padding-bottom: 0.5rem;">
@@ -15,6 +19,8 @@
 
     <ul class="nav" style="justify-content: center; margin-top:1rem;">
         <li><h5><a href="{% url 'todoapp:home' %}">TODO</a></h5></li>
+
+        <li><h5><a href="{% url 'noteapp:home' %}">NOTE</a></h5></li>
     </ul> 
 
 </header>

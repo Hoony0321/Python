@@ -7,7 +7,8 @@
     .content{
         text-align: center;
         margin: 4rem auto;
-        width:500px;
+        width:70%;
+        max-width:600px;
         min-height: 600px;
         background-color: white;
         border-radius: 1.5rem;
@@ -20,12 +21,14 @@
     }
 
     .container div {
-        width: 100px;
+        padding: 1rem;
         background-color: antiquewhite;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         border-radius: 1rem;
+        max-width:200px;
     }
 
     .container img {
@@ -39,12 +42,13 @@
     <div class="content">
         <h1 class="title" style="font-size: 3rem; font-family: var(--font-bold);">NOTEAPP</h1>
 
-        <div style="display: flex; margin-top: 2rem;">
+        <div style="display: flex; margin-top: 2rem; justify-content: space-around;">
 
             <form action="#" method="post">
                 <div class="input-group" >
-                    <input type="text" name="search" style="width:60%; border-radius:1.5rem 0 0 1.5rem;">
-                    <input type="submit" value="ok" style="border-radius: 0 1.5rem 1.5rem 0;">
+                    <input type="text" name="search" style="width:60%; border-radius:1.5rem 0 0 1.5rem; padding: 0.5rem 1rem;" placeholder="Search"/>
+                    <button type="submit" style="border-radius: 0 1.5rem 1.5rem 0; text-align:center; font-size: 1.2rem; width: 50px;"><i class="fas fa-search" style="display: block;"></i></button>
+                    <!--<input type="submit" value="ok" style="border-radius: 0 1.5rem 1.5rem 0;">-->
                 </div>
             </form>
 
@@ -60,51 +64,37 @@
             </div>
         </div>
 
+
+        {% if noteList %}<!-- note 객체가 존재할 경우 -->
         <div class="container" style="margin-top:2.5rem;">
+            {% for note in noteList %}
             <div>
-                <img src="https://picsum.photos/200/300">
+                <h3>{{ note.title }}</h3>
+                <p>
+                    {{ note.content }}
+                </p>
+                <hr>
+                <p>CREATE : {{ note.createDate}}</p>
+                <p>MODIFY : {{ note.modifyDate}}</p>
             </div>
-            <div>
-                <img src="https://picsum.photos/200/340">
-            </div>
-            <div>
-                <img src="https://picsum.photos/200/280">
-            </div>
-            <div>
-                <img src="https://picsum.photos/200/390">
-            </div>
-            <div>
-                <img src="https://picsum.photos/200/200">
-            </div>
-            <div>
-                <img src="https://picsum.photos/200/500">
-            </div>
-            <div>
-                <img src="https://picsum.photos/200/100">
-            </div>
-            <div>
-                <img src="https://picsum.photos/200/250">
-            </div>
-            <div>
-                <img src="https://picsum.photos/200/320">
-            </div>
-            <div>
-                <img src="https://picsum.photos/200/300">
-            </div>
-            <div>
-                <img src="https://picsum.photos/200/300">
-            </div>
-            <div>
-                <img src="https://picsum.photos/200/270">
-            </div>
-            <div>
-                <img src="https://picsum.photos/200/330">
-            </div>
+            {% endfor %}           
         </div>
 
 
+        {% else %} <!-- note 객체가 하나도 없을 경우 -->
+        <h1>NO NOTE!!!</h1>
+
+        {% endif %}
+
+
+        <div style="display: flex; justify-content: flex-end; margin-top:1rem;">
+            <a href="{% url 'noteapp:create' %}" class="btn btn-primary rounded-pill" style="padding: 0.5rem 1rem;">
+                CREATE
+            </a>
+        </div>
         
     </div>
+
 
 
     {% load static %}
