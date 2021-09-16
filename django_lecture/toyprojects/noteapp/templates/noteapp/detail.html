@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+
+{% block contents %}
+
+<style>
+.content{
+    text-align: center;
+    margin: 4rem auto;
+    width:70%;
+    max-width:600px;
+    min-height: 600px;
+    background-color: white;
+    border-radius: 1.5rem;
+
+    padding: 2rem 2rem;
+}
+
+</style>
+
+<div style="width:100%; height:100%">
+
+    <div class="content">
+        <h1>{{ target_note.title }}</h1>
+
+        <p class="rounded" style="background-color:#EFEFEF; min-height: 400px; margin-top:2rem; padding:1rem;">
+            {{ target_note.content }}
+        </p>
+
+        <div class="nav mt-3" style="justify-content: right;">
+            <a href="{% url 'noteapp:update' pk=target_note.pk %}" class="btn btn-primary rounded-pill" style="margin-right: 1rem;">update</a>
+            <a href="{% url 'noteapp:delete' pk=target_note.pk %}" class="btn btn-danger rounded-pill">delete</a>
+        </div>
+        
+
+        <ul class="nav" style="justify-content: center; margin-top: 2rem;">
+            <li><p>create by : {{ target_note.createDate }}</p></li>
+            <li><p>update by : {{ target_note.modifyDate }}</p></li>
+        </ul>
+    </div>
+
+
+</div>
+
+
+{% endblock %}
