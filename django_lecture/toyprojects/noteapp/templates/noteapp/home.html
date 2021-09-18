@@ -138,21 +138,39 @@
 <script src="{% static 'js/magicgrid.js' %}"></script>
 
 <script>
-$(document).ready(function(){
+    //ajax header csrf token setup.
+    // jQuery.ajaxSetup({
+    //     headers : {'X-CSRFToken' : '{{ csrf_token }}'}
+    // });
 
-    $('#modal_deleteBtn').click(function(){
-        let pk = $(this).data('pk');
-        console.log(pk);
-    });
+$(document).ready(function() {
 
-    $('#deleteModal').on('shown.bs.modal', function(event){
-        console.log("click!");
-    });
+    $('#deleteModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var pk_data = button.data('pk') // Extract info from data-* attributes
 
-    $(document).on('shown.bs.modal','.modal', function () {
-        console.log("click");
-    });
+        var modal = $(this);
+        modal.find('.modal-title').text('Delete Object ' + pk_data);
 
+        $('#modal_deleteBtn').on('click', function(){
+            $.ajax(
+                {
+                    type: 'GET',
+                    url : '/note/delete/'.concat(pk_data),
+                    headers : {'X-CSRFToken' : '{{ csrf_token }}'},
+                    success : function(response){
+                        console.log("delete성공!");
+                    },
+                    error : function(e){
+                        alert("데이터 전송 실패!");
+                    },
+                    complete : function(){
+                        location.reload();
+                    }
+                }  
+            );
+        });
+    })
 });
 </script>
 
