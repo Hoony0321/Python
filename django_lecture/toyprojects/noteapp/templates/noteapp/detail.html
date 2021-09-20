@@ -24,10 +24,10 @@
         <h1>{{ target_note.title }}</h1>
 
         <p class="rounded" style="background-color:#EFEFEF; min-height: 400px; margin-top:2rem; padding:1rem;">
-            {{ target_note.content }}
+            {{ target_note.content|linebreaks|safe }}
         </p>
 
-        <div class="nav mt-3" style="justify-content: right;">
+        <div class="nav mt-3" style="justify-content: flex-end;">
             <a href="{% url 'noteapp:update' pk=target_note.pk %}" class="btn btn-primary rounded-pill" style="margin-right: 1rem;">update</a>
             <a href="{% url 'noteapp:delete' pk=target_note.pk %}" class="btn btn-danger rounded-pill">delete</a>
         </div>

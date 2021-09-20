@@ -34,6 +34,18 @@
     .container img {
         width: 100%;
     }   
+
+    .note_content > p{
+        font-size:0.7rem;
+
+        display: -webkit-box;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 5;
+        word-break: break-all;
+
+    }
 </style>
 
 <div style="width:100%; height:100%">
@@ -54,12 +66,12 @@
 
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Sort By
+                    Search By
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">create date</a>
-                    <a class="dropdown-item" href="#">modify date</a>
-                    <a class="dropdown-item" href="#">alphabet</a>
+                    <a class="dropdown-item" href="#">Title</a>
+                    <a class="dropdown-item" href="#">Content</a>
+                    <a class="dropdown-item" href="#">Update</a>
                 </div>
             </div>
 
@@ -71,12 +83,9 @@
             {% for note in noteList %}
             <div>
                 <h3>{{ note.title }}</h3>
-                <p>
-                    {{ note.content }}
-                </p>
-                <hr>
-                <p>CREATE : {{ note.createDate}}</p>
-                <p>MODIFY : {{ note.modifyDate}}</p>
+                <div class="note_content" style="margin-top:0.5rem; margin-bottom:2rem;">
+                    {{ note.content|linebreaks|safe }}
+                </div>
 
                 <div>
                     <a href="{% url 'noteapp:detail' pk=note.pk %}" class="btn btn-secondary rounded-pill" style="font-weight: bold;">detail</a>
